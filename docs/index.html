@@ -41,6 +41,15 @@
 		<script src="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/1.0.3/head.min.js"></script>
 		<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.1/dist/clipboard.min.js"></script>
+
+    <script>
+        new ClipboardJS('pre', {
+            target: function(trigger) {
+                return trigger;
+            }
+        });
+    </script>
 
 		<script>
 			Reveal.initialize({

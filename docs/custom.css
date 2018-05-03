@@ -1,0 +1,27 @@
+.reveal section img {
+  border: 0px;
+  background: transparent;
+  padding: 15px;
+  border-radius: 8px;
+}
+.hljs {
+  background: none;
+}
+.reveal pre code {
+  tab-size: 2;
+  -moz-tab-size: 2;
+}
+.reveal pre code {
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 40px;
+  max-height: 95vh;
+  overflow: hidden;
+}
+.white-shadow {
+  -webkit-filter: drop-shadow(1px 1px 25px #FFFF);
+  filter: drop-shadow(1px 1px 25px #FFFF);
+}
+b {
+  color: #e7ad52
+}

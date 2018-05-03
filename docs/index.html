@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Docker by default</title>
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/night.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/styles/atom-one-dark.min.css">
+		<link rel="stylesheet" href="custom.css">
+	</head>
+
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+<!-- TITULO -->
+				<section id="portada">
+					<h1>Docker by Default</h1>
+					<h2>Introducción de nuevas prácticas en el desarrollo software</h2>
+					<p>por Sergio Martín Segura</p>
+						<p><i class="fab fa-github"></i> <a href="https://github.com/SureSRM">SureSRM</a></p>
+				</section>
+
+			</div>
+		</div>
+		<script>
+			for (var slide of document.getElementsByTagName('section')){
+			  if (!(slide.getAttribute('data-background') ||
+			        slide.getAttribute('data-background-image') ||
+							slide.getAttribute('data-background-video') ||
+			        slide.getAttribute('data-background-iframe'))){
+			    slide.setAttribute('data-background-image', 'pattern.svg');
+			    slide.setAttribute('data-background-repeat', 'repeat');
+			    slide.setAttribute('data-background-size', '300px');
+			  }
+			}
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/1.0.3/head.min.js"></script>
+		<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+		<script>
+			Reveal.initialize({
+				width: 1920,
+				height: 1080,
+				margin: 0.1,
+				viewDistance: 3,
+				showNotes: false,
+				transition: 'fade-out',
+				transitionSpeed: 'fast',
+				dependencies: [
+
+					// Interpret Markdown in <section> elements
+					{ src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.min.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.min.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+
+					// Syntax highlight for <code> elements
+					{ src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/highlight/highlight.min.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+					// Zoom in and out with Alt+click
+					{ src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.min.js', async: true },
+
+					// Speaker notes
+					{ src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.min.js', async: true },
+
+					// MathJax
+					{ src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/math/math.min.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>

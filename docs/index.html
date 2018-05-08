@@ -17,37 +17,309 @@
 			<div class="slides">
 
 <!-- TITULO -->
-				<section id="portada">
-					<h1>Docker by Default</h1>
-					<h2>Introducción de nuevas prácticas en el desarrollo software</h2>
-					<p>por Sergio Martín Segura</p>
-						<p><i class="fab fa-github"></i> <a href="https://github.com/SureSRM">SureSRM</a></p>
-				</section>
+<section id="portada">
+	<h1>Docker by Default</h1>
+	<h2>Introducción de nuevas prácticas en el desarrollo software</h2>
+	<p>por Sergio Martín Segura</p>
+		<p><i class="fab fa-github"></i> <a href="https://github.com/SureSRM">SureSRM</a></p>
+</section>
 
 <!-- Qué es Docker -->
+<section id="que-es-docker">
+	<h2>¿Qué es Docker?</h2>
+</section>
+<section id="que-es-docker-1">
+	<h2>Empaquetar entornos de ejecución:</h2>
+	<ul>
+	  <li class="fragment"><h3><b>Re</b>producibles</h3></li>
+	  <li class="fragment"><h3><b>Re</b>construibles</h3></li>
+	  <li class="fragment"><h3><b>Re</b>distribuibles</h3></li>
+	</ul>
+</section>
 
 <!-- Cómo funciona -->
-  <!-- LXC -->
-  <!-- Imágenes -->
-  <!-- Registry -->
+<!-- LXC -->
+<section id="intro-linux-container">
+	<ul>
+		<li class="fragment"><h3>Linux Container (<b>LXC</b>)</h3></li>
+		<li class="fragment"><h3>Kernel <b>+</b> Recursos</h3></li>
+	</ul>
+	<aside class="notes">
+		<p>No vamos a entrar en muchos detalles pero entenderemos el sistema como
+			una forma de compartir recursos bajo un mismo kernel"</p>
+	</aside>
+</section>
+
+<!-- Imágenes -->
+<section id="intro-imagenes">
+	<h2>Imágenes</h2>
+
+	<aside class="notes">
+		<p>El elemento primigenio de Docker es LA IMAGEN</p>
+	</aside>
+</section>
+<section id="intro-imagenes-1">
+	<h3>Sistema de ficheros <b>+</b> metadatos</h3>
+
+	<aside class="notes">
+		<p>Igual que en una máquina virtual</p>
+	</aside>
+</section>
+
+<!-- Registry -->
+<section id="intro-registry">
+		<h2>Registry</h2>
+
+		<aside class="notes">
+			<p>"""REPOSITORIO""" de imágenes</p>
+		</aside>
+</section>
+<section id="intro-registry-1">
+		<img style="width: 1300px" data-src="http://oi62.tinypic.com/2qnxdoz.jpg">
+</section>
+<section id="intro-registry-2">
+	<img style="width: 1300px" data-src="https://i2.wp.com/blog.docker.com/media/2015/09/docker-hub-diagram.png">
+</section>
+
+<!-- Contenedores -->
+<section id="intro-contenedores">
+  <h2>Contenedores</h2>
+
+	<aside class="notes">
+		<p>Son INSTANCIAS de las imágenes</p>
+	</aside>
+</section>
 
 <!-- Instalación -->
-  <!-- Añadir el usuario al grupo -->
+<section id="instalacion">
+	<h2>Instalación</h2>
+</section>
+<section id="instalacion-1">
+	<pre><code data-trim class="sh">
+		sudo apt-get install \
+		    "apt-transport-https" \
+		    "ca-certificates" \
+		    "curl" \
+		    "software-properties-common"
+	</code></pre>
+</section>
+<section id="instalacion-2">
+	<pre><code data-trim class="sh">
+		curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | \
+			sudo apt-key add -
+	</code></pre>
+	<pre><code data-trim class="sh">
+		sudo add-apt-repository \
+		   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+		   $(lsb_release -cs) \
+		   stable"
+	</code></pre>
+	<pre><code data-trim class="sh">
+		sudo apt-get update && sudo apt-get install "docker-ce"
+	</code></pre>
+</section>
+<!-- Añadir el usuario al grupo -->
+<section id="instalacion-3">
+	<pre><code data-trim class="sh">
+		sudo groupadd "docker" && \
+		sudo usermod -aG docker $USER
+	</code></pre>
+</section>
 
 <!-- DEMO TIME: Asciidoc compiler -->
+<section id="demo-ascii-compiler">
+  <h2>Demo time <b>#1</b></h2>
+</section>
+<section id="demo-ascii-compiler-1">
+	<h3>Compilación de ficheros <b>Asciidoctor</b></h3>
+	<pre><code data-trim class="sh">
+		docker run --rm -it \
+		-v $(pwd):/documents/ \
+		asciidoctor/docker-asciidoctor
+	</code></pre>
+	<pre><code data-trim class="sh">
+		asciidoctor index.adoc
+	</code></pre>
+</section>
+<section id="demo-ascii-compiler-2">
+	<h3>Compilación de ficheros <b>Asciidoctor</b></h3>
+	<h4>(automáticamente)</h4>
+	<pre><code data-trim class="sh">
+		docker run --rm \
+		-v $(pwd):/documents/ \
+		asciidoctor/docker-asciidoctor \
+		asciidoctor index.adoc
+	</code></pre>
+</section>
 <!-- DEMO TIME: Adhoc server (con bind) -->
+<section id="demo-adhoc-server">
+  <h2>Demo time <b>#2</b></h2>
+</section>
+<section id="demo-adhoc-server-1">
+  <h2>Servidor <b>nginx</b></h2>
+	<pre><code data-trim class="sh">
+		docker run --rm \
+		-p 8000:80 \
+		-v $(pwd):/usr/share/nginx/html:ro \
+		nginx
+	</code></pre>
+</section>
+
+<!-- Introducción a Docker File -->
+<section id="puente-docker-file">
+  <h2>Los ingenieros no creemos en la <b>auto-magia</b></h2>
+</section>
+
+<section id="puente-docker-file-1">
+  <h2>Formas de crear una <b>Imagen Docker</b></h2>
+	<ul>
+	  <li class="fragment"><h3>Haciendo <b>commit</b> a un contenedor</h3></li>
+	  <li class="fragment"><h3>Ejecutando un script <b>Dockerfile</b></h3></li>
+	</ul>
+</section>
+<section id="puente-docker-file-2">
+  <h2>El comando <b>commit</b></h2>
+	<pre><code data-trim class="sh">
+		docker commit CONTAINER [REPOSITORY[:TAG]]
+	</code></pre>
+</section>
 
 <!-- Docker File -->
-  <!-- Docker is like GIT -->
+<section id="docker-file">
+  <h2>Adoramos al <b>Dockerfile</b></h2>
+	<video height="720px" autoplay loop>
+		<source data-src="https://media.giphy.com/media/l0G18oUugjuD1vNcs/giphy.mp4" type="video/mp4">
+	</video>
+</section>
+<section id="docker-file-1">
+  <h2>Imagen previa</h2>
+  <h2><b><i class="fas fa-arrow-down"></i></b></h2>
+  <h2>Operaciones definidas en el Dockerfile</h2>
+  <h2><b><i class="fas fa-arrow-down"></i></b></h2>
+  <h2>Una nueva imagen</h2>
+</section>
+<section id="docker-file-2">
+  <h3>./Dockerfile</h3>
+	<pre><code data-trim class="docker">
+		FROM openjdk:8-jre-alpine
+		ENV SPRING_OUTPUT_ANSI_ENABLED="ALWAYS" \
+		    SLEEP="0" \
+		    JAVA_OPTS=""
+
+		ADD *.war /app.war
+
+		EXPOSE 8888
+		CMD echo "The application will start in ${SLEEP}s..." && \
+		    sleep ${SLEEP} && \
+		    java ${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom -jar /app.war
+	</code></pre>
+</section>
+<section id="docker-file-3">
+  <h3>Compilación de una <b>imagen</b></h3>
+	<pre><code data-trim class="sh">
+		docker build -t repositorio:tag $PATH_TO_DOCKERFILE
+	</code></pre>
+</section>
+
+	<!-- FROM -->
+	<section id="docker-file-from">
+	  <h2>FROM <b>repository[:tag]</b></h2>
+		<ul>
+		  <li class="fragment"><h3>Es la primera acción de todo <b>Dockerfile</b>*</h3></li>
+		  <li class="fragment"><h3>Define la <b>imagen base</b></h3></li>
+		  <li class="fragment"><h3>Si <b>:tag</b> no está presente, utiliza <b>:latest</b></h3></li>
+		  <li class="fragment"><h3>El <b>registry</b> por defecto es <b>Docker Hub</b></h3></li>
+		  <li class="fragment"><h3>Ej: <b>node:</b></h3></li>
+		</ul>
+	</section>
+
   <!-- ARG -->
-  <!-- FROM -->
+	<section id="docker-file-arg">
+		<h2>ARG <b>name[=default_value]</b></h2>
+		<ul>
+			<li class="fragment"><h3>Es la única acción que se puede ejecutar antes de FROM</h3></li>
+			<li class="fragment"><h3>Define <b>argumentos</b> que se usarán en el compilado</h3></li>
+			<li class="fragment"><h3>Se les asigna un valor mediante <b>docker build --build-arg</b></h3></li>
+		</ul>
+	</section>
   <!-- Layers -->
+	<section id="docker-file-layers">
+		<h2>Las <b>layers</b> de un <b>Dockerfile</b></h2>
+		<ul>
+			<li class="fragment"><h3>Cada acción performa una capa</h3></li>
+			<li class="fragment"><h3>Combinar comandos en una acción reduce el tamaño final de la imagen</h3></li>
+			<li class="fragment"><h3>Combinar comandos en una acción dificulta compartir capas entre imagenes</h3></li>
+		</ul>
+	</section>
   <!-- RUN -->
+	<section id="docker-file-run">
+		<h2>RUN <b>cmd</b></h2>
+		<ul>
+			<li class="fragment"><h3>Ejecuta el <b>cmd</b> en una línea de comandos</h3></li>
+			<li class="fragment"><h3>Se pueden concatenar <b>cmd</b>s con <b>&&</b></h3></li>
+			<li class="fragment"><h3>Se pueden partir los comandos en varias líneas con <b>\</b></h3></li>
+		</ul>
+	</section>
   <!-- ENV -->
+	<section id="docker-file-run">
+		<h2>ENV <b>key value</b></h2>
+		<ul>
+			<li class="fragment"><h3>Define <b>variables de entorno</b></h3></li>
+		</ul>
+	</section>
   <!-- USER -->
+	<section id="docker-file-user">
+		<h2>USER <b>user:group</b></h2>
+		<h2>USER <b>UID:GID</b></h2>
+		<ul>
+			<li class="fragment"><h3>Toma el control de un <b>usuario</b></h3></li>
+			<li class="fragment"><h3>Si no existe el usuario, lo <b>crea</b></h3></li>
+			<li class="fragment"><h3>Si al usuario no se le asigna un grupo, <b>SERÁ ROOT</b> por defecto</h3></li>
+		</ul>
+	</section>
+
+	<!-- WORKDIR -->
+	<section id="docker-file-workdir">
+		<h2>WORKDIR <b>/path/to/workdir</b></h2>
+		<ul>
+			<li class="fragment"><h3>Mueve el directorio de trabado (<b>pwd</b>) a <b>/path/to/workdir</b></h3></li>
+			<li class="fragment"><h3>Si no existe el directorio, lo <b>crea</b></h3></li>
+		</ul>
+	</section>
+
   <!-- VOLUME -->
+	<section id="docker-file-volume">
+		<h2>VOLUME <b>/internal/mount/point</b></h2>
+		<ul>
+			<li class="fragment"><h3>Crea un punto de montaje para un <b>Volumen Docker</b></h3></li>
+			<li class="fragment"><h3>Los cambios en un volumen no son controlados por la <b>layer</b></h3></li>
+			<li class="fragment"><h3>Los cambios posteriores efectuados en el <b>Dockerfile</b> en ese
+				directorio <b>se perderán</b></h3></li>
+		</ul>
+	</section>
+
   <!-- EXPOSE -->
+	<section id="docker-file-expose">
+		<h2>EXPOSE <b>port</b></h2>
+		<ul>
+			<li class="fragment"><h3>Declara que se <b>debería exponer</b> ese puerto al crear un contenedor en el <b>host</b></h3></li>
+			<li class="fragment"><h3>El comando <b>no lo expone/abre</b> directamente</h3></li>
+			<li class="fragment"><h3>Una imagen no tiene el concepto de <b>puerto abierto</b></h3></li>
+		</ul>
+	</section>
+
   <!-- LABEL -->
+	<section id="docker-file-label">
+		<h2>LABEL <b>key=value</b></h2>
+		<ul>
+			<li class="fragment"><h3>Añade una <b>label</b> y su <b>valor</b> a la imagen</h3></li>
+			<li class="fragment"><h3>Los contenedores creados en base a esa imagen heredarán esa <b>label</b></h3></li>
+			<li class="fragment"><h3>Las <b>label</b> son metadatos útiles para el mantenimiento de un sistema</h3></li>
+			<li class="fragment"><h3>A día de hoy aún es extraño encontrar imágenes con<b>labels</b></h3></li>
+			<li class="fragment"><h3>Existe una propuesta de estándar por parte de <a href="http://label-schema.org/rc1/">label-schema</a></h3></li>
+		</ul>
+	</section>
+
   <!-- CMD / ENTRYPOINT -->
 
 <!-- Docker Compose -->
@@ -56,8 +328,30 @@
   <!-- DEMO TIME: Wordpress with database  -->
 
 <!-- Deep on docker -->
-  <!-- Imágenes -->
+  <!-- Imágenes y Registries-->
     <!-- Tags y Diggests -->
+		<section id="docker-like-git">
+			<h2>Un <b>Registry</b> funciona "como" <b>Git</b></h2>
+			<h4 class="fragment">index.docker.io <b>=</b> github.com</h4>
+			<h4 class="fragment">index.docker.io/library/node/ <b>=</b> github.com/nodejs/node</h4>
+			<h4 class="fragment">layer: 60238cc <b>=</b> commit: 54d20ff</h4>
+			<h4 class="fragment">tag: 9.11-alpine <b>=</b> tag: v9.11.1</h4>
+		</section>
+		<section id="">
+		  <h2>Un <b>tag</b> no es una <b>versión</b>, es un <b>puntero temporal</b>
+				a una <b>layer</b></h2>
+		</section>
+		<section id="docker-like-git-1">
+			<div><img style="height: 1060px" data-src="https://github.com/justone/dockviz/raw/master/sample/images.png"></div>
+		</section>
+		<section id="docker-like-git-1">
+		  <h2>Para garantizar que siempre se descarga la misma imágen, se puede usar el <b>diggest</b></h2>
+			<h3 class="fragment">openjdk@sha256:cf4b3b659831253394882d5073244615152ab0379810cdc10eb85b36cf42e755</h3>
+
+			<aside class="notes">
+		    <p>No obstante ES MEJOR USAR REPOSITORIOS DE CONFIANZA y beneficiarse de las actualizaciones</p>
+		  </aside>
+		</section>
   <!-- Contenedores -->
   <!-- Volúmenes y Bindings-->
     <!-- Docker Volume Manager -->
@@ -65,6 +359,7 @@
 
 <!-- Docker como...  -->
   <!-- Plataforma unificada para dev/test/prod -->
+  <!-- Workbench para papers científicos -->
   <!-- El enemigo de los sistemas legados https://thepracticaldev.s3.amazonaws.com/i/nd6wk8brbgvp5zuao4q0.gif-->
 
 <!-- Tools for docker -->
@@ -116,6 +411,8 @@
 				showNotes: false,
 				transition: 'fade-out',
 				transitionSpeed: 'fast',
+				history: true,
+				zoomKey: 'shift',
 				dependencies: [
 
 					// Interpret Markdown in <section> elements

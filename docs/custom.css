@@ -18,10 +18,6 @@
   max-height: 95vh;
   overflow: hidden;
 }
-.white-shadow {
-  -webkit-filter: drop-shadow(1px 1px 25px #FFFF);
-  filter: drop-shadow(1px 1px 25px #FFFF);
-}
 b {
   color: #e7ad52
 }

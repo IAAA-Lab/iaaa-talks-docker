@@ -49,10 +49,18 @@
 			una forma de compartir recursos bajo un mismo kernel"</p>
 	</aside>
 </section>
+<section id="intro-linux-container-1">
+	<img style="width: 1300px"
+		data-src="http://cdn.rancher.com/wp-content/uploads/2017/02/16175231/VMs-and-Containers.jpg">
+	<aside class="notes">
+		<p>OS lo entendemos como Kernel</p>
+		<p>La prueba es RancherOS</p>
+	</aside>
+</section>
 
 <!-- Imágenes -->
 <section id="intro-imagenes">
-	<h2>Imágenes</h2>
+	<h1>Imágenes</h1>
 
 	<aside class="notes">
 		<p>El elemento primigenio de Docker es LA IMAGEN</p>
@@ -68,31 +76,37 @@
 
 <!-- Registry -->
 <section id="intro-registry">
-		<h2>Registry</h2>
+		<h1>Registry</h1>
 
 		<aside class="notes">
 			<p>"""REPOSITORIO""" de imágenes</p>
 		</aside>
 </section>
 <section id="intro-registry-1">
-		<img style="width: 1300px" data-src="http://oi62.tinypic.com/2qnxdoz.jpg">
+		<img style="width: 1300px"
+			data-src="http://oi62.tinypic.com/2qnxdoz.jpg">
 </section>
 <section id="intro-registry-2">
-	<img style="width: 1300px" data-src="https://i2.wp.com/blog.docker.com/media/2015/09/docker-hub-diagram.png">
+	<img style="width: 1300px"
+		data-src="https://i2.wp.com/blog.docker.com/media/2015/09/docker-hub-diagram.png">
 </section>
 
 <!-- Contenedores -->
 <section id="intro-contenedores">
-  <h2>Contenedores</h2>
+  <h1>Contenedores</h1>
 
 	<aside class="notes">
 		<p>Son INSTANCIAS de las imágenes</p>
 	</aside>
 </section>
+<section id="intro-contenedores-1">
+	<img style="width: 1300px"
+		data-src="https://cdn-images-1.medium.com/max/1600/0*eKctxyygva5lDTcv.">
+</section>
 
 <!-- Instalación -->
 <section id="instalacion">
-	<h2>Instalación</h2>
+	<h1>Instalación</h1>
 </section>
 <section id="instalacion-1">
 	<pre><code data-trim class="sh">
@@ -163,6 +177,9 @@
 		-v $(pwd):/usr/share/nginx/html:ro \
 		nginx
 	</code></pre>
+	<pre><code data-trim class="sh">
+		firefox "http://localhost:8000"
+	</code></pre>
 </section>
 
 <!-- Introducción a Docker File -->
@@ -186,7 +203,8 @@
 
 <!-- Docker File -->
 <section id="docker-file">
-  <h2>Adoramos al <b>Dockerfile</b></h2>
+  <h2>Adoramos al</h2>
+  <h1><b>Dockerfile</b></h1>
 	<video height="720px" autoplay loop>
 		<source data-src="https://media.giphy.com/media/l0G18oUugjuD1vNcs/giphy.mp4" type="video/mp4">
 	</video>
@@ -227,9 +245,10 @@
 		<ul>
 		  <li class="fragment"><h3>Es la primera acción de todo <b>Dockerfile</b>*</h3></li>
 		  <li class="fragment"><h3>Define la <b>imagen base</b></h3></li>
-		  <li class="fragment"><h3>Si <b>:tag</b> no está presente, utiliza <b>:latest</b></h3></li>
+		  <li class="fragment"><h3>La elección de la base <b>repercute en el tamaño final</b></h3></li>
+			<li class="fragment"><h3>Si <b>:tag</b> no está presente, utiliza <b>:latest</b></h3></li>
 		  <li class="fragment"><h3>El <b>registry</b> por defecto es <b>Docker Hub</b></h3></li>
-		  <li class="fragment"><h3>Ej: <b>node:</b></h3></li>
+		  <li class="fragment"><h3>Ej: <b>node:9.11-alpine</b></h3></li>
 		</ul>
 	</section>
 
@@ -246,9 +265,10 @@
 	<section id="docker-file-layers">
 		<h2>Las <b>layers</b> de un <b>Dockerfile</b></h2>
 		<ul>
-			<li class="fragment"><h3>Cada acción performa una capa</h3></li>
+			<li class="fragment"><h3>Las acciones <b>RUN</b>, <b>COPY</b> y <b>ADD</b> performan capas</h3></li>
 			<li class="fragment"><h3>Combinar comandos en una acción reduce el tamaño final de la imagen</h3></li>
-			<li class="fragment"><h3>Combinar comandos en una acción dificulta compartir capas entre imagenes</h3></li>
+			<li class="fragment"><h3>Separar comandos en varias acciones permite <b>cachear capas para sucesivas builds</b></h3></li>
+			<li class="fragment"><h3>Separar comandos en varias acciones permite <b>compartir capas entre imagenes</b></h3></li>
 		</ul>
 	</section>
   <!-- RUN -->
@@ -260,8 +280,28 @@
 			<li class="fragment"><h3>Se pueden partir los comandos en varias líneas con <b>\</b></h3></li>
 		</ul>
 	</section>
+  <!-- COPY -->
+	<section id="docker-file-copy">
+		<h2>COPY <b>host/path image/path</b></h2>
+		<ul>
+			<li class="fragment"><h3>Copia ficheros y directorios del <b>host</b> a la <b>imagen</b></h3></li>
+			<li class="fragment"><h3>Los <b>path relativos</b> se resuelven respecto a la
+				localización del <b>Dockerfile</b> en el host y al <b>WORKDIR</b> en la imagen</h3></li>
+			<li class="fragment"><h3>Los ficheros que figuren en <b>.dockerignore</b> no serán copiados</h3></li>
+		</ul>
+	</section>
+  <!-- ADD -->
+	<section id="docker-file-add">
+		<h2>ADD <b>source/path image/path</b></h2>
+		<ul>
+			<li class="fragment"><h3>Extiende la funcionalidad de <b>COPY</b></h3></li>
+			<li class="fragment"><h3>El <b>source path</b> puede ser una URL</h3></li>
+			<li class="fragment"><h3>Si source path es un <b>fichero comprimido</b>, <b>lo descomprime</b></h3></li>
+			<li class="fragment"><h3>La documentación oficial recomienda usarlo <b>sólo</b> si se necesitan sus <b>funciones extra</b></h3></li>
+		</ul>
+	</section>
   <!-- ENV -->
-	<section id="docker-file-run">
+	<section id="docker-file-env">
 		<h2>ENV <b>key value</b></h2>
 		<ul>
 			<li class="fragment"><h3>Define <b>variables de entorno</b></h3></li>
@@ -321,11 +361,262 @@
 	</section>
 
   <!-- CMD / ENTRYPOINT -->
+	<section id="docker-file-entrypoint">
+		<h2>ENTRYPOINT <b>bash command</b></h2>
+		<h2>ENTRYPOINT <b>["exec", "param1"]</b></h2>
+		<ul>
+			<li class="fragment"><h3>Define el comando que se ejecutará <b>al arrancar el contenedor</b></h3></li>
+			<li class="fragment"><h3>Semánticamente, <b>no debería sobreescribirse</b></h3></li>
+			<li class="fragment"><h3>Se puede sobreescribir con <b>--entrypoint</b> en el <b>docker run</b></h3></li>
+			<li class="fragment"><h3>Ej: <b>docker run --entrypoint "new command" IMAGE</b></h3></li>
+		</ul>
+	</section>
+	<section id="docker-file-cmd">
+		<h2>CMD <b>bash command</b></h2>
+		<h2>CMD <b>["exec", "param1"]</b></h2>
+		<ul>
+			<li class="fragment"><h3>Igual que ENTRYPOINT, define el comando que se ejecutará <b>al arrancar el contenedor</b></h3></li>
+			<li class="fragment"><h3>Semánticamente, <b>puede sobreescribirse</b></h3></li>
+			<li class="fragment"><h3>Se puede sobreescribir <b>añadiéndolo al final</b> del <b>docker run</b></h3></li>
+			<li class="fragment"><h3>Ej: <b>docker run IMAGE new-command new-param1</b></h3></li>
+		</ul>
+	</section>
+	<section id="docker-file-entrypoint-n-cmd">
+		<h2>ENTRYPOINT <b>+</b> CMD</h2>
+		<ul>
+			<li class="fragment"><h3>Ambos deben estar definidos en modo <b>JSON array</b> </h3></li>
+			<li class="fragment"><h3>El <b>CMD</b> se pasará como parámetros al <b>ENTRYPOINT</b> </h3></li>
+		</ul>
+	</section>
+	<section id="demo-entrypoint-and-cmd">
+	  <h2>Demo time <b>#3</b></h2>
+	</section>
+	<section id="demo-entrypoint-and-cmd-1">
+		<h2>ENTRYPOINT <b>+</b> CMD</h2>
+		<pre><code data-trim class="docker">
+			FROM busybox
+			ENTRYPOINT ["echo","Hello"]
+			CMD [""]
+		</code></pre>
+		<pre class="fragment"><code data-trim class="bash">
+			docker build -t localhost:5000/hello .
+		</code></pre>
+		<pre class="fragment"><code data-trim class="bash">
+			docker run --rm localhost:5000/hello
+		</code></pre>
+		<pre class="fragment"><code data-trim class="bash">
+			docker run --rm localhost:5000/hello Javier
+		</code></pre>
+	</section>
+	<section id="demo-entrypoint-and-cmd-2">
+		<h2>ENTRYPOINT <b>+</b> CMD</h2>
+		<pre><code data-trim class="docker">
+			FROM node:9.11-alpine
+			RUN npm install http-server -g
+			EXPOSE 80
+			ENTRYPOINT ["http-server","-p","80"]
+			CMD [""]
+		</code></pre>
+		<pre class="fragment"><code data-trim class="bash">
+			docker run -p 8080:80 myhost/myhttpserver --cors
+		</code></pre>
+	</section>
+
+	<section id="puente-docker-compose">
+	  <h2>¿Cómo despliego <b>más de un servicio a la vez</b>?</h2>
+	</section>
 
 <!-- Docker Compose -->
-  <!-- Traduciendo conceptos -->
+<section id="docker-compose">
+  <h1>Docker Compose</h1>
+</section>
+<section id="docker-compose-1">
+	<h2>Adoramos al</h2>
+	<h1><b>Docker Compose</b></h1>
+	<video height="360px" autoplay loop>
+		<source data-src="https://media.giphy.com/media/l0G18oUugjuD1vNcs/giphy.mp4" type="video/mp4">
+	</video>
+	<video height="360px" autoplay loop>
+		<source data-src="https://media.giphy.com/media/l0G18oUugjuD1vNcs/giphy.mp4" type="video/mp4">
+	</video>
+	<video height="360px" autoplay loop>
+		<source data-src="https://media.giphy.com/media/l0G18oUugjuD1vNcs/giphy.mp4" type="video/mp4">
+	</video>
+	<video height="360px" autoplay loop>
+		<source data-src="https://media.giphy.com/media/l0G18oUugjuD1vNcs/giphy.mp4" type="video/mp4">
+	</video>
+	<video height="360px" autoplay loop>
+		<source data-src="https://media.giphy.com/media/l0G18oUugjuD1vNcs/giphy.mp4" type="video/mp4">
+	</video>
+	<video height="360px" autoplay loop>
+		<source data-src="https://media.giphy.com/media/l0G18oUugjuD1vNcs/giphy.mp4" type="video/mp4">
+	</video>
+</section>
+
+<section id="docker-compose-2">
+	<ul>
+	  <li class="fragment"><h3>Arquitectura <b>declarativa</b></h3></li>
+	  <li class="fragment"><h3>Documentación <b>ejecutable</b></h3></li>
+	  <li class="fragment"><h3>Manifiesto <b>docker-compose.yml</b></h3></li>
+	</ul>
+</section>
+
+  <!-- Estructura del manifiesto -->
+	<section id="docker-compose-estructura">
+		<h2>Estructura de <b>docker-compose.yml</b></h2>
+		<pre><code data-trim class="yml">
+			version: '2'
+			services:
+				servicename1:
+					image: image/name1
+					volumes:
+						- volumename1:/data
+					networks:
+						- intranet
+				servicename2:
+					build: ./imagedir
+					image: localhost:5000/image-name2
+					volumes:
+						- volumename1:/data
+					networks:
+						- intranet
+			volumes:
+			  volumename1:
+			    driver: local
+			networks:
+				intranet:
+					driver: bridge
+		</code></pre>
+	</section>
+
+	<!-- Funcionamiento -->
+	<section id="docker-compose-ejecucion">
+	  <h2>Ejecución</h2>
+		<pre><code data-trim class="bash">
+			docker-compose up -d
+		</code></pre>
+		<pre class="fragment"><code data-trim class="bash">
+			docker-compose down
+		</code></pre>
+		<pre class="fragment"><code data-trim class="bash">
+			docker-compose build
+		</code></pre>
+		<pre class="fragment"><code data-trim class="bash">
+			docker-compose up -d service-name
+		</code></pre>
+		<pre class="fragment"><code data-trim class="bash">
+			docker-compose stop
+		</code></pre>
+		<pre class="fragment"><code data-trim class="bash">
+			docker-compose start
+		</code></pre>
+		<pre class="fragment"><code data-trim class="bash">
+			docker-compose --help
+		</code></pre>
+	</section>
+
+  <!-- Servicios -->
+	<section id="docker-compose-servicios">
+		<h2>Imagen <b><i class="fas fa-arrow-right"></i></b> Servicio</h2>
+		<ul>
+		  <li class="fragment"><h3>Un servicio es un <b>conjunto de contenendores</b> de una misma imagen</h3></li>
+		  <li class="fragment"><h3>El número de contenedores de un servicio es <b>1</b> por defecto</h3></li>
+		  <li class="fragment"><h3>El número de contenedores se puede escalar fácilemnte con <b>docker-compose scale service_name=num_replicas</b></h3></li>
+		</ul>
+	</section>
+
+	<!-- Producción -->
+	<section id="docker-compose-produccion">
+	  <h2>¿Docker Compose sirve para producción?</h2>
+		<h3 class="fragment">En general... <b class="fragment">NO</b></h3>
+	</section>
+	<section id="docker-compose-produccion-1">
+		<h2>Existe <b>Docker Swarm</b>...
+			<img style="width: 1100px"
+				data-src="https://www.upcloud.com/support/wp-content/uploads/2016/10/Docker-Swarm-Orchestration-1024x265.png">
+		</h2>
+		<h2 class="fragment">...pero también existe <b>Kubernetes</b>
+			<img style="width: 1100px"
+			data-src="https://softwareengineeringdaily.com/wp-content/uploads/2018/04/kubernetes.png">
+		</h2>
+		<h2 class="fragment">y ese es <b>OTRO MUNDO</b></h2>
+	</section>
+	<section id="docker-compose-produccion-3">
+	  <h2>¿Docker Compose sirve para producción?</h2>
+		<h3 class="fragment">Sólo si tu despliegue es para <b>una máquina con pocos servicios</b></h3>
+	</section>
+
   <!-- Metadatos y stack -->
+	<section id="docker-compose-by-default">
+	  <h2>¿Debo usar Docker Compose?</h2>
+	</section>
+	<section id="docker-compose-by-default-1">
+		<video height="720px" autoplay loop>
+			<source data-src="https://media.giphy.com/media/geYwtodB9AiI0/giphy.mp4" type="video/mp4">
+		</video>
+	</section>
+	<section id="docker-compose-by-default-3">
+		<h2>Pautas para el desarrollo</h2>
+		<ul>
+		  <li class="fragment"><h3>No recicles, usa <b>up/down</b> regularmente</h3></li>
+		  <li class="fragment"><h3>Compila usando <b>docker-compose build</b></h3></li>
+		  <li class="fragment"><h3>Usa <b>docker-compose</b> incluso si tu sistema sólo tiene un servicio</h3></li>
+		</ul>
+	</section>
+
   <!-- DEMO TIME: Wordpress with database  -->
+	<section id="demo-wordpress">
+	  <h2>Demo time <b>#4</b></h2>
+	</section>
+	<section id="demo-wordpress-1">
+		<h2>Servicios</h2>
+		<pre><code data-trim class="yml">
+			   db:
+			     image: mysql:5.7
+			     volumes:
+			       - db_data:/var/lib/mysql
+			     restart: always
+			     environment:
+			       MYSQL_ROOT_PASSWORD: somewordpress
+			       MYSQL_DATABASE: wordpress
+			       MYSQL_USER: wordpress
+			       MYSQL_PASSWORD: wordpress
+
+			   wordpress:
+			     depends_on:
+			       - db
+			     image: wordpress:latest
+			     ports:
+			       - "8000:80"
+			     restart: always
+			     environment:
+			       WORDPRESS_DB_HOST: db:3306
+			       WORDPRESS_DB_USER: wordpress
+			       WORDPRESS_DB_PASSWORD: wordpress
+		</code></pre>
+	</section>
+	<section id="demo-wordpress-2">
+		<h2>Volúmenes</h2>
+		<pre><code data-trim class="yml">
+			volumes:
+			    db_data:
+		</code></pre>
+	</section>
+	<section id="demo-wordpress-3">
+		<h2>Ejecución</h2>
+		<pre><code data-trim class="sh">
+			docker-compose up -d
+		</code></pre>
+		<pre><code data-trim class="sh">
+			docker-compose top
+		</code></pre>
+		<pre><code data-trim class="sh">
+			docker-compose logs
+		</code></pre>
+		<pre><code data-trim class="sh">
+			firefox "http://localhost:8000"
+		</code></pre>
+	</section>
 
 <!-- Deep on docker -->
   <!-- Imágenes y Registries-->
@@ -366,14 +657,13 @@
   <!-- IntelliJ -->
   <!-- Portainer -->
 
-<!-- Docker en producción -->
+<!-- Docker en producción [FUERA DE SCOPE] -->
   <!-- RancherOS as a Docker Machine -->
   <!-- Swarm -->
   <!-- Kubernetes -->
   <!-- Rancher -->
 
 <!-- Se quedan en el tintero -->
-  <!-- .dockerignore -->
 
 			</div>
 		</div>

@@ -619,7 +619,64 @@
 	</section>
 
 <!-- Deep on docker -->
+<section id="deep-on-docker">
+  <h2>Let's go deeper</h2>
+	<ul>
+	  <li class="fragment"><h3><a href="#imagenes">Imágenes</a></h3></li>
+	  <li class="fragment"><h3><a href="#registries">Registries</a></h3></li>
+	  <li class="fragment"><h3><a href="#contenedores">Contenedores</a></h3></li>
+	  <li class="fragment"><h3><a href="#volumenes">Volúmenes y bindings</a></h3></li>
+	  <li class="fragment"><h3><a href="#redes">Redes</a></h3></li>
+	</ul>
+</section>
+
   <!-- Imágenes y Registries-->
+	<section id="imagenes">
+	  <h2>Imagenes</h2>
+		<h3 class="fragment">Sistema de ficheros <b>+</b> metadatos</h3>
+	</section>
+	<section id="imagenes-1">
+	  <h2>Capas</h2>
+		<span class="fragment">
+			<h3><b>+</b></h3>
+			<h2>Capas</h2>
+			<h3><b>+</b></h3>
+			<h2>Capas</h2>
+		</span>
+	</section>
+	<section id="imagenes-2">
+		<h2></h2>
+		<img style="width: 1100px"
+		    data-src="http://test-dockerrr.readthedocs.io/en/latest/userguide/storagedriver/images/image-layers.jpg">
+	</section>
+
+	<!-- Registries -->
+	<section id="registries">
+		<h2>Registries</h2>
+	</section>
+	<section id="registries-1">
+		<div><img style="width: 1300px"
+				data-src="https://robinsystems.com/wp-content/uploads/2017/01/linux-vs-docker-comparison-architecture-docker-components.png"></div>
+		<aside class="notes">
+			<p>No confundir registries con cache local</p>
+		</aside>
+	</section>
+	<section id="registries-2">
+		<h3><b></b>image:tag</h3>
+		<h3 class="fragment"><b></b>user/image:tag</h3>
+		<h3 class="fragment"><b>localhost:500/</b>image:tag</h3>
+		<h3 class="fragment"><b>your.domain.com/</b>image:tag</h3>
+		<aside class="notes">
+			<p>Introducir el local registry</p>
+		</aside>
+	</section>
+	<section id="registries-3">
+		<h3>docker run -d -p 5000:5000 --restart=always --name registry <b>registry:2</b></h3>
+		<h3 class="fragment">docker tag image <b>localhost:5000/</b>image:tag</h3>
+		<h3 class="fragment">docker push <b>localhost:5000/</b>image:tag</h3>
+		<h3 class="fragment">docker pull <b>localhost:5000/</b>image:tag</h3>
+	</section>
+
     <!-- Tags y Diggests -->
 		<section id="docker-like-git">
 			<h2>Un <b>Registry</b> funciona "como" <b>Git</b></h2>
@@ -628,25 +685,89 @@
 			<h4 class="fragment">layer: 60238cc <b>=</b> commit: 54d20ff</h4>
 			<h4 class="fragment">tag: 9.11-alpine <b>=</b> tag: v9.11.1</h4>
 		</section>
-		<section id="">
+		<section id="docker-like-git-1">
 		  <h2>Un <b>tag</b> no es una <b>versión</b>, es un <b>puntero temporal</b>
 				a una <b>layer</b></h2>
 		</section>
-		<section id="docker-like-git-1">
+		<section id="docker-like-git-2">
 			<div><img style="height: 1060px" data-src="https://github.com/justone/dockviz/raw/master/sample/images.png"></div>
 		</section>
-		<section id="docker-like-git-1">
+		<section id="docker-like-git-3">
 		  <h2>Para garantizar que siempre se descarga la misma imágen, se puede usar el <b>diggest</b></h2>
 			<h3 class="fragment">openjdk@sha256:cf4b3b659831253394882d5073244615152ab0379810cdc10eb85b36cf42e755</h3>
-
 			<aside class="notes">
 		    <p>No obstante ES MEJOR USAR REPOSITORIOS DE CONFIANZA y beneficiarse de las actualizaciones</p>
 		  </aside>
 		</section>
-  <!-- Contenedores -->
+
+	<!-- Contenedores -->
+	<section id="contenedores">
+		<h2>Contenedores</h2>
+	</section>
+	<section id="contenedores-1">
+		<h2><b>Instancias</b> de <b>imágenes</b></h2>
+	</section>
+	<section id="contenedores-2">
+		<h2></h2>
+		<img style="width: 1300px"
+		    data-src="https://docs.docker.com/storage/storagedriver/images/sharing-layers.jpg">
+	</section>
+
   <!-- Volúmenes y Bindings-->
+	<section id="volumenes">
+		<h2>Volúmenes y Bindings</h2>
+	</section>
+	<section id="volumenes-1">
+		<h3>Todas las <b>escrituras</b> que un contenedor hace en su <b>sistema de ficheros</b>
+		son aplicadas sobre su <b>capa R/W</b></h3>
+		<h3 class="fragment">¿Todas?</h3>
+		<h3 class="fragment">Todas <b>no</b>...</h3>
+	</section>
+	<section id="volumenes-2">
+		<h2>volumename<b>:</b>/data</h2>
+	</section>
+	<section id="volumenes-3">
+		<h2>Formas de crear un volúmen</h2>
+		<ul>
+		  <li class="fragment"><h3>docker volume create <b>volumename</b></h3></li>
+		  <li class="fragment"><h3>docker run -v <b>"volumename:/path"</b></h3></li>
+		  <li class="fragment"><h3>VOLUME <b>"/path"</b></h3></li>
+		</ul>
+	</section>
+
     <!-- Docker Volume Manager -->
+		<section id="docker-volume-manager">
+			<h2>Docker Volume Manager</h2>
+			<h3 class="fragment">docker-volume export <b>volumename</b></h3>
+			<h3 class="fragment">docker-volume import <b>volumename</b></h3>
+			<h3 class="fragment">docker-volume copy <b>volumenamesrc volumename_dst</b></h3>
+			<h3 class="fragment">docker-volume ls <b>volumename /path/to/list</b></h3>
+			<h3 class="fragment">docker-volume cat <b>volumename /path/to/file</b></h3>
+		</section>
+
   <!-- Redes -->
+	<section id="redes">
+		<h2>Redes</h2>
+	</section>
+	<section id="redes-1">
+		<h2>Los <b>contenedores</b> aislan las comunicaciones del <b>host</b></h2>
+	</section>
+	<section id="redes-2">
+		<h2>Tipos de redes</h2>
+		<ul>
+			<li class="fragment"><h3><b>bridge: </b>para comunicarse entre contenedores</h3></li>
+			<li class="fragment"><h3><b>host: </b>para levantar el aislamiento de red</h3></li>
+			<li class="fragment"><h3><b>overlay: </b>para despliegues distribuidos</h3></li>
+		</ul>
+	</section>
+	<section id="redes-3">
+		<h2>Puertos (en bridge)</h2>
+		<ul>
+		  <li class="fragment"><h3>Los puertos se exponen <b>explícitamente</b></h3></li>
+		  <li class="fragment"><h3>Binding fijo <b>host_port:container_port</b></h3></li>
+		  <li class="fragment"><h3>Binding aleatorio <b>container_port</b></h3></li>
+		</ul>
+	</section>
 
 <!-- Docker como...  -->
   <!-- Plataforma unificada para dev/test/prod -->

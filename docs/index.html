@@ -108,7 +108,8 @@
 <section id="instalacion">
 	<h1>Instalación</h1>
 </section>
-<section id="instalacion-1">
+<section id="instalacion-linux">
+	<h2>Linux</h2>
 	<pre><code data-trim class="sh">
 		sudo apt-get install \
 		    "apt-transport-https" \
@@ -117,7 +118,7 @@
 		    "software-properties-common"
 	</code></pre>
 </section>
-<section id="instalacion-2">
+<section id="instalacion-linux-1">
 	<pre><code data-trim class="sh">
 		curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | \
 			sudo apt-key add -
@@ -133,11 +134,15 @@
 	</code></pre>
 </section>
 <!-- Añadir el usuario al grupo -->
-<section id="instalacion-3">
+<section id="instalacion-linux-2">
 	<pre><code data-trim class="sh">
 		sudo groupadd "docker" && \
 		sudo usermod -aG docker $USER
 	</code></pre>
+</section>
+<section id="instalacion-win-mac">
+	<h2>Windows y Mac</h2>
+	<h3>Descargándolos de la <a href="https://store.docker.com/search?type=edition">Docker Store <i class="fas fa-external-link-alt"></i></a></h3>
 </section>
 
 <!-- DEMO TIME: Asciidoc compiler -->

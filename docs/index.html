@@ -264,6 +264,7 @@
 			<li class="fragment"><h3>Es la única acción que se puede ejecutar antes de FROM</h3></li>
 			<li class="fragment"><h3>Define <b>argumentos</b> que se usarán en el compilado</h3></li>
 			<li class="fragment"><h3>Se les asigna un valor mediante <b>docker build --build-arg</b></h3></li>
+			<li class="fragment"><h3>Ej: <b>ARG HADOOP_VERSION=2.8.4</b></h3></li>
 		</ul>
 	</section>
   <!-- Layers -->
@@ -283,6 +284,8 @@
 			<li class="fragment"><h3>Ejecuta el <b>cmd</b> en una línea de comandos</h3></li>
 			<li class="fragment"><h3>Se pueden concatenar <b>cmd</b>s con <b>&&</b></h3></li>
 			<li class="fragment"><h3>Se pueden partir los comandos en varias líneas con <b>\</b></h3></li>
+			<li class="fragment"><h3>Utiliza SIEMPRE <b>versiones fijas</b></h3></li>
+			<li class="fragment"><h3>Ej: <b>RUN apk install curl</b></h3></li>
 		</ul>
 	</section>
   <!-- COPY -->
@@ -293,6 +296,7 @@
 			<li class="fragment"><h3>Los <b>path relativos</b> se resuelven respecto a la
 				localización del <b>Dockerfile</b> en el host y al <b>WORKDIR</b> en la imagen</h3></li>
 			<li class="fragment"><h3>Los ficheros que figuren en <b>.dockerignore</b> no serán copiados</h3></li>
+			<li class="fragment"><h3>Ej: <b>COPY config.yml /app/config.yml</b></h3></li>
 		</ul>
 	</section>
   <!-- ADD -->
@@ -303,6 +307,7 @@
 			<li class="fragment"><h3>El <b>source path</b> puede ser una URL</h3></li>
 			<li class="fragment"><h3>Si source path es un <b>fichero comprimido</b>, <b>lo descomprime</b></h3></li>
 			<li class="fragment"><h3>La documentación oficial recomienda usarlo <b>sólo</b> si se necesitan sus <b>funciones extra</b></h3></li>
+			<li class="fragment"><h3>Ej: <b>ADD core.tar /app/core</b></h3></li>
 		</ul>
 	</section>
   <!-- ENV -->
@@ -310,6 +315,7 @@
 		<h2>ENV <b>key value</b></h2>
 		<ul>
 			<li class="fragment"><h3>Define <b>variables de entorno</b></h3></li>
+			<li class="fragment"><h3>Ej: <b>ENV JAVA_OPS="-Xms512m -Xmx512m"</b></h3></li>
 		</ul>
 	</section>
   <!-- USER -->
@@ -320,6 +326,7 @@
 			<li class="fragment"><h3>Toma el control de un <b>usuario</b></h3></li>
 			<li class="fragment"><h3>Si no existe el usuario, lo <b>crea</b></h3></li>
 			<li class="fragment"><h3>Si al usuario no se le asigna un grupo, <b>SERÁ ROOT</b> por defecto</h3></li>
+			<li class="fragment"><h3>Ej: <b>USER firefox:firefox</b></h3></li>
 		</ul>
 	</section>
 
@@ -329,6 +336,7 @@
 		<ul>
 			<li class="fragment"><h3>Mueve el directorio de trabado (<b>pwd</b>) a <b>/path/to/workdir</b></h3></li>
 			<li class="fragment"><h3>Si no existe el directorio, lo <b>crea</b></h3></li>
+			<li class="fragment"><h3>Ej: <b>WORKDIR /app</b></h3></li>
 		</ul>
 	</section>
 
@@ -340,6 +348,7 @@
 			<li class="fragment"><h3>Los cambios en un volumen no son controlados por la <b>layer</b></h3></li>
 			<li class="fragment"><h3>Los cambios posteriores efectuados en el <b>Dockerfile</b> en ese
 				directorio <b>se perderán</b></h3></li>
+			<li class="fragment"><h3>Ej: <b>VOLUME /app/data</b></h3></li>
 		</ul>
 	</section>
 
@@ -350,6 +359,7 @@
 			<li class="fragment"><h3>Declara que se <b>debería exponer</b> ese puerto al crear un contenedor en el <b>host</b></h3></li>
 			<li class="fragment"><h3>El comando <b>no lo expone/abre</b> directamente</h3></li>
 			<li class="fragment"><h3>Una imagen no tiene el concepto de <b>puerto abierto</b></h3></li>
+			<li class="fragment"><h3>Ej: <b>EXPOSE 80</b></h3></li>
 		</ul>
 	</section>
 
@@ -362,6 +372,7 @@
 			<li class="fragment"><h3>Las <b>label</b> son metadatos útiles para el mantenimiento de un sistema</h3></li>
 			<li class="fragment"><h3>A día de hoy aún es extraño encontrar imágenes con<b>labels</b></h3></li>
 			<li class="fragment"><h3>Existe una propuesta de estándar por parte de <a href="http://label-schema.org/rc1/">label-schema</a></h3></li>
+			<li class="fragment"><h3>Ej: <b>LABEL org.label-schema.vendor=iaaa.cps.unizar.es</b></h3></li>
 		</ul>
 	</section>
 
@@ -563,9 +574,10 @@
 	<section id="docker-compose-by-default-3">
 		<h2>Pautas para el desarrollo</h2>
 		<ul>
-		  <li class="fragment"><h3>No recicles, usa <b>up/down</b> regularmente</h3></li>
+		  <li class="fragment"><h3>No recicles, usa <b>up</b>/<b>down -v</b> regularmente</h3></li>
 		  <li class="fragment"><h3>Compila usando <b>docker-compose build</b></h3></li>
 		  <li class="fragment"><h3>Usa <b>docker-compose</b> incluso si tu sistema sólo tiene un servicio</h3></li>
+		  <li class="fragment"><h3>Lee el <b>código</b> de otros: JHipster, Node, etc.</h3></li>
 		</ul>
 	</section>
 
@@ -854,6 +866,7 @@
   <h2>Se quedan en el tintero...</h2>
 	<ul>
 	  <li class="fragment"><h3><b>Docker en producción:</b> Swarm, Kubernetes, Rancher, etc.</h3></li>
+	  <li class="fragment"><h3><b>Permisos y seguridad:</b> UID, control de accesos, acceso a recursos, etc.</h3></li>
 	  <li class="fragment"><h3><b>Builds complejas:</b> multy-stage, secrets, build-args, etc.</h3></li>
 	  <li class="fragment"><h3><b>Integración contínua:</b> automatizado de builds, tests de integración, etc.</h3></li>
 	  <li class="fragment"><h3><b>Tendencia de Docker:</b> un futuro enfocado al cloud (funcionalidades obsoletas)</h3></li>
